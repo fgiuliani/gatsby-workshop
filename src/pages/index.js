@@ -1,25 +1,57 @@
 import React from "react"
-import { Link } from "gatsby"
+import { Link, useStaticQuery, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
-import Repos from "../components/repos"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
+const BlogPage = () => {
+  const posts = useStaticQuery(graphql`
+    query {
+      allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+        totalCount
+        edges {
+          node {
+            id
+            frontmatter {
+              title
+              date(formatString: "DD MMMM, YYYY", locale: "es")
+            }
+            fields {
+              slug
+            }
+            excerpt
+          }
+        }
+      }
+    }
+  `)
+  return (
+    <Layout>
+      <SEO title="Blog" />
+      <h1>Hola</h1>
+      <p>Este es mi blog :)</p>
+      <p>Tengo en total {posts.allMarkdownRemark.totalCount} post(s)</p>
+      {posts.allMarkdownRemark.edges.map(({ node }) => (
+        <Link
+          to={node.fields.slug}
+          style={{ textDecoration: "none", color: "#2f2f2f" }}
+        >
+          <article
+            style={{
+              border: "1px solid grey",
+              borderRadius: "5px",
+              margin: "24px",
+              padding: "12px",
+            }}
+          >
+            <h2>{node.frontmatter.title}</h2>
+            <i>{node.frontmatter.date}</i>
+            <p>{node.excerpt}</p>
+          </article>
+        </Link>
+      ))}
+    </Layout>
+  )
+}
 
-    <Repos />
-
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
-
-export default IndexPage
+export default BlogPage
