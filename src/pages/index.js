@@ -28,9 +28,8 @@ const BlogPage = () => {
   return (
     <Layout>
       <SEO title="Blog" />
-      <h1>Hola</h1>
-      <p>Este es mi blog :)</p>
-      <p>Tengo en total {posts.allMarkdownRemark.totalCount} post(s)</p>
+      <h1>Facundo Giuliani</h1>
+      <p>Stuff that I want to share</p>
       {posts.allMarkdownRemark.edges.map(({ node }) => (
         <Link
           to={node.fields.slug}
