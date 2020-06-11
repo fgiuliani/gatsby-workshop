@@ -39,29 +39,6 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-    {
-      resolve: `gatsby-source-github-api`,
-      options: {
-        token: process.env.GATSBY_GH_KEY,
-        graphQLQuery: `
-          query {
-            user(login: "fgiuliani") {
-              repositories(privacy: PUBLIC, first: 50, orderBy: {field: STARGAZERS, direction: DESC}) {
-                edges {
-                  node {
-                    id
-                    name
-                    description
-                    isPrivate
-                    url
-                  }
-                }
-              }
-            }
-          }
-        `,
-      },
-    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
